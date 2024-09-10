@@ -33,10 +33,18 @@ pkgs.mkShell {
     ];
     
     shellHook = ''
-        ./install-composer.sh
         git --version
         php -v
-        ./composer --version
+
+        if ! command -v composer > /dev/null; then
+            mkdir -p $HOME/.local/bin
+            curl -sS https://getcomposer.org/installer | php -- --install-dir=$HOME/.local/bin --filename=composer
+        fi
+        export PATH=$HOME/.local/bin:$PATH
+        composer --version
+
+        curl -sS https://get.symfony.com/cli/installer | bash
+        export PATH=$HOME/.symfony5/bin:$PATH
         symfony -V
     '';
 }
