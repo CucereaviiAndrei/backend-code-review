@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Controller;
@@ -10,13 +11,13 @@ use Zenstruck\Messenger\Test\InteractsWithMessenger;
 class MessageControllerTest extends WebTestCase
 {
     use InteractsWithMessenger;
-    
-    function test_list(): void
+
+    public function testList(): void
     {
         $this->markTestIncomplete('the Controller-Action needs tests');
     }
-    
-    function test_that_it_sends_a_message(): void
+
+    public function testThatItSendsAMessage(): void
     {
         $client = static::createClient();
         $client->request('GET', '/messages/send', [
