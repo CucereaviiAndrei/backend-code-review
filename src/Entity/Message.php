@@ -31,7 +31,9 @@ class Message
 
     public function __construct()
     {
+        // Automatically generate UUID v7 to ensure each message has a unique identifier without manual intervention.
         $this->uuid = Uuid::v7();
+        // Using DateTimeImmutable for the creation date to ensure it's not accidentally modified later.
         $this->createdAt = new \DateTimeImmutable();
     }
 

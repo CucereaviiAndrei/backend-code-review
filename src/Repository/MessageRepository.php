@@ -31,6 +31,7 @@ class MessageRepository extends ServiceEntityRepository
      */
     public function findByStatus(string $status): array
     {
+        // Replaced raw SQL queries with Doctrine's QueryBuilder for better maintainability, security, and readability.
         /** @var Message[] $result */
         $result = $this->createQueryBuilder('m')
             ->where('m.status = :status')

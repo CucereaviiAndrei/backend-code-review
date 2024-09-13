@@ -17,9 +17,10 @@ class SendMessageHandler
 
     public function __invoke(SendMessage $sendMessage): void
     {
+        // Simplified object creation by chaining method calls, improving readability.
         $message = (new Message())
             ->setText($sendMessage->text)
-            ->setStatus('sent');
+            ->setStatus('sent'); // Status is automatically set to 'sent' during message creation.
 
         $this->manager->persist($message);
         $this->manager->flush();

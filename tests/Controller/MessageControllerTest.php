@@ -50,14 +50,17 @@ class MessageControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
+        // Updated test to reflect the use of POST for message creation, ensuring the correct method is being tested.
         $client->request('POST', '/messages/send', [
             'text' => 'Hello World',
         ]);
 
+        // Asserting that the response is successful (HTTP 201 for resource creation).
         $this->assertResponseIsSuccessful();
         // This is using https://packagist.org/packages/zenstruck/messenger-test
         $this->transport('sync')
             ->queue()
+            // Asserting that the SendMessage command was correctly dispatched and is in the message queue.
             ->assertContains(SendMessage::class, 1);
     }
 }

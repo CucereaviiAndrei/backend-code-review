@@ -10,9 +10,10 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 use App\Message\SendMessage;
 
+// New service introduced for business logic separation
 readonly class MessageService
 {
-
+    // Constructor injection of dependencies allows the service to handle message dispatching and database interactions.
     public function __construct(
         private MessageRepository $messageRepository,
         private MessageBusInterface $bus,
@@ -34,6 +35,7 @@ readonly class MessageService
         $this->bus->dispatch(new SendMessage($text), [new DelayStamp($delay)]);
     }
 
+    // Centralized message validation to ensure consistency across different parts of the application.
     public function validateMessage(?string $text): bool
     {
         return !empty($text);

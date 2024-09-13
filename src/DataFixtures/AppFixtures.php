@@ -15,6 +15,7 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create();
 
+        // The message creation process has been simplified using array_map, making the code cleaner and easier to maintain.
         $messages = array_map(function () use ($faker) {
             $message = new Message();
             $message->setText($faker->sentence);
