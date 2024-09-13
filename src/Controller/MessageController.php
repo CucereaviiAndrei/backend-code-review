@@ -24,7 +24,7 @@ class MessageController extends AbstractController
     #[Route('/messages')]
     public function list(Request $request): JsonResponse
     {
-        $status = $request->query->get('status');
+        $status = (string)$request->query->get('status');
         $messages = $this->messageService->getMessagesByStatus($status);
 
         return $this->json(['messages' => $messages], Response::HTTP_OK);
@@ -33,7 +33,7 @@ class MessageController extends AbstractController
     #[Route('/messages/send', methods: ['POST'])]
     public function send(Request $request): JsonResponse
     {
-        $text = $request->request->get('text');
+        $text = (string)$request->request->get('text');
         if (!$this->messageService->validateMessage($text)) {
             throw new BadRequestHttpException('Text is required');
         }

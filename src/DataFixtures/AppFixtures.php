@@ -17,8 +17,11 @@ class AppFixtures extends Fixture
 
         $messages = array_map(function () use ($faker) {
             $message = new Message();
-            $message->setText($faker->sentence)
-                ->setStatus($faker->randomElement(['sent', 'read']));
+            $message->setText($faker->sentence);
+
+            /** @var string $status */
+            $status = $faker->randomElement(['sent', 'read']);
+            $message->setStatus($status);
 
             return $message;
         }, range(1, 10));

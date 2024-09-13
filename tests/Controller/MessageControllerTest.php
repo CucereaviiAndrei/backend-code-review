@@ -20,8 +20,10 @@ class MessageControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
 
         $responseContent = $client->getResponse()->getContent();
+        $this->assertIsString($responseContent);
         $data = json_decode($responseContent, true);
 
+        $this->assertIsArray($data);
         $this->assertArrayHasKey('messages', $data);
         $this->assertIsArray($data['messages']);
 
@@ -31,8 +33,10 @@ class MessageControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
 
         $responseContent = $client->getResponse()->getContent();
+        $this->assertIsString($responseContent);
         $data = json_decode($responseContent, true);
 
+        $this->assertIsArray($data);
         $this->assertArrayHasKey('messages', $data);
         $this->assertIsArray($data['messages']);
 

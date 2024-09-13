@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\Message;
 use App\Repository\MessageRepository;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
@@ -18,9 +19,14 @@ readonly class MessageService
     ) {
     }
 
+    /**
+     * @return Message[] Returns an array of Message objects
+     */
     public function getMessagesByStatus(?string $status): array
     {
-        return empty($status) ? $this->messageRepository->findAll() : $this->messageRepository->findByStatus($status);
+        return empty($status)
+            ? $this->messageRepository->findAll()
+            : $this->messageRepository->findByStatus($status);
     }
 
     public function sendMessage(string $text, int $delay = 0): void
