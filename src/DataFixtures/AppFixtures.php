@@ -6,9 +6,6 @@ use App\Entity\Message;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-use Symfony\Component\Uid\Uuid;
-
-use function Psl\Iter\random;
 
 class AppFixtures extends Fixture
 {
@@ -16,15 +13,15 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create();
 
-        foreach (range(1, 10) as $i) {
+        $messages = array_map(function () use ($faker) {
             $message = new Message();
-            $message->setUuid(Uuid::v6()->toRfc4122());
-            $message->setText($faker->sentence);
-            $message->setStatus(random(['sent', 'read']));
-            $message->setCreatedAt(new \DateTime());
+            $message->setText($faker->sentence)
+                ->setStatus($faker->randomElement(['sent', 'read']));
 
-            $manager->persist($message);
-        }
+            return $message;
+        }, range(1, 10));
+
+        array_walk($messages, [$manager, 'persist']);
 
         $manager->flush();
     }

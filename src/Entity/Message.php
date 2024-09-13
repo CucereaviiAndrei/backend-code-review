@@ -5,11 +5,9 @@ namespace App\Entity;
 use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
-/**
- * TODO: Review Message class.
- */
 class Message
 {
     #[ORM\Id]
@@ -17,8 +15,8 @@ class Message
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::GUID)]
-    private ?string $uuid = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    private ?Uuid $uuid = null;
 
     #[ORM\Column(length: 255)]
     private ?string $text = null;
@@ -26,20 +24,26 @@ class Message
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
 
-    #[ORM\Column(type: 'datetime')]
-    private \DateTime $createdAt;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private \DateTimeImmutable $createdAt;
+
+    public function __construct()
+    {
+        $this->uuid = Uuid::v7();
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUuid(): ?string
+    public function getUuid(): ?Uuid
     {
         return $this->uuid;
     }
 
-    public function setUuid(string $uuid): static
+    public function setUuid(Uuid $uuid): static
     {
         $this->uuid = $uuid;
 
@@ -70,12 +74,12 @@ class Message
         return $this;
     }
 
-    public function getCreatedAt(): \DateTime
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 

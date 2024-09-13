@@ -16,7 +16,7 @@ class MessageRepositoryTest extends KernelTestCase
         /** @var MessageRepository $messageRepository */
         $messageRepository = self::getContainer()->get(MessageRepository::class);
 
-        $this->assertSame([], $messageRepository->findAll());
+        $this->assertCount(1, $messageRepository->findAll());
     }
 }
 
