@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Repository;
+namespace App\Tests\Repository;
 
 use App\Repository\MessageRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -13,8 +13,10 @@ class MessageRepositoryTest extends KernelTestCase
     {
         self::bootKernel();
 
-        $messages = self::getContainer()->get(MessageRepository::class);
+        /** @var MessageRepository $messageRepository */
+        $messageRepository = self::getContainer()->get(MessageRepository::class);
 
-        $this->assertSame([], $messages->findAll());
+        $this->assertSame([], $messageRepository->findAll());
     }
 }
+

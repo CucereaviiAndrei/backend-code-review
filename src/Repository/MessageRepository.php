@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Message;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @extends ServiceEntityRepository<Message>
@@ -22,20 +21,21 @@ class MessageRepository extends ServiceEntityRepository
         parent::__construct($registry, Message::class);
     }
 
-    public function by(Request $request): array
+    /**
+     * Find messages by status.
+     *
+     * @param string $status The status of the messages.
+     * @return Message[] Returns an array of Message entities.
+     */
+    public function findByStatus(string $status): array
     {
-        $status = $request->query->get('status');
+        /** @var Message[] $result */
+        $result = $this->createQueryBuilder('m')
+            ->where('m.status = :status')
+            ->setParameter('status', $status)
+            ->getQuery()
+            ->getResult();
 
-        if ($status) {
-            $messages = $this->getEntityManager()
-                ->createQuery(
-                    sprintf("SELECT m FROM App\Entity\Message m WHERE m.status = '%s'", $status)
-                )
-                ->getResult();
-        } else {
-            $messages = $this->findAll();
-        }
-
-        return $messages;
+        return $result;
     }
 }
