@@ -7,12 +7,8 @@ namespace App\Message;
 use App\Entity\Message;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\Uid\Uuid;
 
 #[AsMessageHandler]
-/**
- * TODO: Cover with a test.
- */
 class SendMessageHandler
 {
     public function __construct(private EntityManagerInterface $manager)

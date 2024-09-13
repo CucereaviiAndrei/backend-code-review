@@ -21,10 +21,9 @@ class SendMessageHandlerTest extends TestCase
         $entityManager->expects($this->once())
             ->method('flush');
 
-        $handler = new SendMessageHandler($entityManager);
-
         $sendMessage = new SendMessage('Sample message text');
 
+        $handler = new SendMessageHandler($entityManager);
         $handler->__invoke($sendMessage);
     }
 }
